@@ -49,7 +49,7 @@
 
       <paper-header-panel class="list-panel" drawer="" mode="seamed">
 
-        <paper-toolbar>
+        <paper-toolbar><!-- FIXME: this is your profile -->
         <span>You &mdash; 25&ndash;50, F, Carlton 3053</span>
         </paper-toolbar>
 
@@ -66,9 +66,7 @@
 
         <div class="content">
 
-          <paper-material>
-            Something goes here
-          </paper-material>
+          <search-results query="{{q}}"></search-results>
 
         </div>
 
@@ -76,25 +74,16 @@
 
     </paper-drawer-panel>
 
-    <paper-toast id="caching-complete"
-                 duration="6000"
-                 text="Caching complete! This app will work offline.">
-    </paper-toast>
-
-    <platinum-sw-register auto-register
-                          clients-claim
-                          skip-waiting
-                          on-service-worker-installed="displayInstalledToast">
-      <platinum-sw-cache default-cache-strategy="networkFirst"
-                         precache-file="precache.json">
-      </platinum-sw-cache>
-    </platinum-sw-register>
-
   </template>
 
-  <!-- build:js scripts/app.js -->
-  <script src="scripts/app.js"></script>
-  <!-- endbuild-->
+  <script>
+var app = document.querySelector('#app');
+
+// See https://github.com/Polymer/polymer/issues/1381
+window.addEventListener('WebComponentsReady', function() {
+    document.querySelector('body').removeAttribute('unresolved');
+});
+  </script>
 </body>
 
 </html>
