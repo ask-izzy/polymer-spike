@@ -1,0 +1,52 @@
+<dom-module id="search-menu">
+  <template>
+    <paper-item>
+      <paper-input-container>
+        <label is="icon-label"></label>
+        <input is="iron-input"
+               id="textSearch"
+               on-input="_textSearch">
+      </paper-input-container>
+    </paper-item>
+
+    <paper-menu class="list" on-iron-activate="_quickSearch">
+      <paper-item>Housing</paper-item>
+      <paper-item>Food</paper-item>
+      <paper-item>Financial Help</paper-item>
+      <paper-item>Legal Help</paper-item>
+      <paper-item>Something to do</paper-item>
+      <paper-item>Health</paper-item>
+      <paper-item>Job</paper-item>
+    </paper-menu>
+  </template>
+</dom-module>
+
+<script>
+Polymer({
+    is: 'search-menu',
+    properties: {
+        /**
+         * search
+         *
+         * This is the value the user is searching for. It could either be
+         * a text string or a quick search.
+         */
+        search: {
+          type: String,
+          readOnly: true,
+          notify: true
+        }
+    },
+
+    _textSearch: function(e) {
+        this._setSearch(e.target.value);
+    },
+
+    _quickSearch: function(e) {
+        /* unset the search dialog */
+        this.querySelector('#textSearch').bindValue = null;
+
+        this._setSearch(e.detail.item.innerText);
+    }
+});
+</script>
