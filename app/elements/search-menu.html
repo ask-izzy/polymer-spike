@@ -108,11 +108,12 @@ Polymer({
      * should set the #textSearch.
      */
     _queryChanged: function(value) {
-        // FIXME: sometimes this event happens before the selection is set
-        // and so the value can appear when we're going to make a selection
-        if (this.querySelector('#quickSearch .iron-selected') == null) {
-          this.$.textSearch.bindValue = value;
-        }
+        /* delay this until we're sure the DOM has updated */
+        setTimeout((function () {
+            if (this.querySelector('#quickSearch .iron-selected') == null) {
+              this.$.textSearch.bindValue = value;
+            }
+        }).bind(this), 300);
     }
 });
 

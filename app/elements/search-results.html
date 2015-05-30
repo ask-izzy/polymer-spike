@@ -80,6 +80,8 @@ Polymer({
         return {
           q: q,
           key: this.key + ':' + this.secret,
+          // needed for Firefox
+          format: 'json',
         };
     },
 });
