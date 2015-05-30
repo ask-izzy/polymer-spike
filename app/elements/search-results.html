@@ -1,0 +1,49 @@
+<dom-module id="search-results">
+  <template>
+    <!-- makes an AJAX request when the `query` changes, see _searchParams -->
+    <iron-ajax url="https://api.serviceseeker.com.au/api/v3/search/"
+               params="{{searchParams}}"
+               last-response="{{ajaxResponse}}"
+               auto>
+    </iron-ajax>
+
+    Found <span>{{ajaxResponse.meta.total_count}}</span> results!
+
+    <template is="dom-repeat" items="[[ajaxResponse.objects]]">
+      <paper-material>
+        <h1>{{item.name}}</h1>
+        <p>{{item.location.suburb}}</p>
+        <p>{{item.description}}</p>
+      </paper-material>
+    </template>
+
+
+  </template>
+</dom-module>
+
+<script>
+Polymer({
+    is: 'search-results',
+
+    properties: {
+        query: {
+            type: String,
+        },
+        searchParams: {
+            type: String,
+            computed: '_searchParams(query)',
+        },
+    },
+
+    _searchParams: function(q) {
+        return {
+          q: q,
+          // FIXME: THIS IS A PROD KEY
+        };
+    },
+
+    _handleResponse: function(data) {
+        console.log(data);
+    }
+});
+</script>

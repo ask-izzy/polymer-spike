@@ -34,9 +34,10 @@ paper-menu a {
       </paper-input-container>
     </paper-item>
 
-    <paper-menu class="list"
+    <paper-menu id="quickSearch"
+                class="list"
                 attr-for-selected="data-route"
-                selected="{{q}}"
+                selected="{{query}}"
                 on-iron-activate="_quickSearch">
       <a data-route="housing" href="/search/housing">Housing</a>
       <a data-route="food" href="/search/food">Food</a>
@@ -56,26 +57,63 @@ Polymer({
         /**
          * search
          *
-         * This is the value the user is searching for. It could either be
-         * a text string or a quick search.
+         * This is the display value the user is searching for. It could
+         * either be a text string or a quick search.
          */
-        search: {
-          type: String,
-          readOnly: true,
-          notify: true
+        searchDisplay: {
+            type: String,
+            readOnly: true,
+            notify: true
+        },
+
+        /**
+         * query
+         *
+         * The current search query
+         */
+        query: {
+            type: String,
         }
     },
 
+    observers: [
+        '_queryChanged(query)',
+    ],
+
+    /**
+     * #textSearch::change
+     *
+     * Update the searchDisplay property and set the page.
+     */
     _textSearch: function(e) {
-        this._setSearch(e.target.value);
+        this._setSearchDisplay('"' + e.target.value + '"');
         page('/search/' + e.target.value);
     },
 
+    /**
+     * #quickSearch::iron-activate
+     *
+     * Update the searchDisplay property and unset any thing contained in
+     * #textSearch. The page is set by the link.
+     */
     _quickSearch: function(e) {
-        /* unset the search dialog */
         this.querySelector('#textSearch').bindValue = null;
+        this._setSearchDisplay(e.detail.item.innerText);
+    },
 
-        this._setSearch(e.detail.item.innerText);
+    /**
+     * query::change
+     *
+     * If someone changes the value of query (i.e. the router), check if we
+     * should set the #textSearch.
+     */
+    _queryChanged: function(value) {
+        // FIXME: sometimes this event happens before the selection is set
+        // and so the value can appear when we're going to make a selection
+        if (this.querySelector('#quickSearch .iron-selected') == null) {
+          this.querySelector('#textSearch').bindValue = value;
+        }
     }
 });
+
 </script>
