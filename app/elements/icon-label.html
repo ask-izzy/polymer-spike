@@ -1,0 +1,19 @@
+<dom-module id="icon-label">
+  <template>
+    <iron-icon icon="{{icon}}"></iron-icon>
+    <content>Search</content>
+  </template>
+</dom-module>
+
+<script>
+Polymer({
+    is: 'icon-label',
+    extends: 'label',
+    properties: {
+        icon: {
+          type: String,
+          value: 'search'
+        }
+    }
+});
+</script>
