@@ -1,10 +1,13 @@
 <dom-module id="search-results">
   <template>
-    <!-- makes an AJAX request when the `query` changes, see _searchParams -->
-    <iron-ajax url="https://api.serviceseeker.com.au/api/v3/search/"
+    <!-- makes an AJAX request when the `query` changes, see _searchParams
+         'auto' isn't set here because it will trigger an AJAX query before
+         params is set. Is this a bug?
+         https://github.com/Polymer/core-ajax/issues/102 -->
+    <iron-ajax id="issAjax"
+               url="{{url}}"
                params="{{searchParams}}"
-               last-response="{{ajaxResponse}}"
-               auto>
+               last-response="{{ajaxResponse}}">
     </iron-ajax>
 
     Found <span>{{ajaxResponse.meta.total_count}}</span> results!
@@ -26,24 +29,58 @@ Polymer({
     is: 'search-results',
 
     properties: {
+        /**
+         * query
+         *
+         * The query to search for, bind this into the router.
+         */
         query: {
             type: String,
         },
+        /**
+         * searchParams (computed)
+         *
+         * A dictionary of parameters to use for the AJAX request. Used
+         * internally.
+         */
         searchParams: {
             type: String,
             computed: '_searchParams(query)',
         },
+        /**
+         * key
+         *
+         * ISS API key
+         */
+        key: {
+            type: String,
+        },
+        /**
+         * secret
+         *
+         * ISS API secret
+         */
+        secret: {
+            type: String,
+        },
+        /**
+         * url
+         *
+         * ISS API url, defaults to the prod service
+         */
+        url: {
+            type: String,
+            value: 'https://api.serviceseeker.com.au/api/v3/search/'
+        }
     },
 
     _searchParams: function(q) {
+        /* setting this property to actually trigger an AJAX query */
+        this.$.issAjax.auto = true;
         return {
           q: q,
-          // FIXME: THIS IS A PROD KEY
+          key: this.key + ':' + this.secret,
         };
     },
-
-    _handleResponse: function(data) {
-        console.log(data);
-    }
 });
 </script>

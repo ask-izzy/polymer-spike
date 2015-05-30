@@ -97,7 +97,7 @@ Polymer({
      * #textSearch. The page is set by the link.
      */
     _quickSearch: function(e) {
-        this.querySelector('#textSearch').bindValue = null;
+        this.$.textSearch.bindValue = null;
         this._setSearchDisplay(e.detail.item.innerText);
     },
 
@@ -111,7 +111,7 @@ Polymer({
         // FIXME: sometimes this event happens before the selection is set
         // and so the value can appear when we're going to make a selection
         if (this.querySelector('#quickSearch .iron-selected') == null) {
-          this.querySelector('#textSearch').bindValue = value;
+          this.$.textSearch.bindValue = value;
         }
     }
 });
