@@ -1,0 +1,21 @@
+<dom-module id="profile-toolbar">
+  <template>
+    <paper-toolbar>
+      <span>You &mdash;
+      <dom-if if="{{profile.ageGroup}}"><span>{{profile.ageGroup}}</span>,</dom-if>
+      <dom-if if="{{profile.gender}}"><span>{{profile.gender}}</span>,</dom-if>
+      <dom-if if="{{profile.suburb}}">{{profile.suburb}}</dom-if>
+    </paper-toolbar>
+  </template>
+</dom-module>
+
+<script>
+Polymer({
+    is: 'profile-toolbar',
+
+    properties: {
+        profile: Object,
+    },
+
+});
+</script>

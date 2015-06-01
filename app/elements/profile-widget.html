@@ -1,0 +1,73 @@
+<dom-module id="profile-widget">
+  <template>
+    <iron-pages id="profilePages" selected="0">
+      <div>
+        <h3>What is your gender?</h3>
+
+        <paper-menu attr-for-selected="data-value"
+                    selected="{{profile.gender}}"
+                    on-iron-activate="_selectionMade">
+          <paper-item data-value="F">Female</paper-item>
+          <paper-item data-value="M">Male</paper-item>
+          <paper-item data-value="X">Other</paper-item>
+          <paper-item data-value="U">Prefer not to say</paper-item>
+        </paper-menu>
+
+        <paper-button class="next-button"
+                      on-click="_nextPage"
+                      disabled>Next</paper-button>
+      </div>
+      <div>
+        <h3>What is your age group?</h3>
+
+        <paper-menu attr-for-selected="data-value"
+                    selected="{{profile.ageGroup}}"
+                    on-iron-activate="_selectionMade">
+          <paper-item data-value="< 20">&lt; 20 years old</paper-item>
+          <paper-item data-value="20-55">20&ndash;55 years old</paper-item>
+        </paper-menu>
+
+        <paper-button class="next-button"
+                      on-click="_nextPage"
+                      disabled>Next</paper-button>
+      </div>
+      <div>
+        <h3>Where do you live?</h3>
+
+        <paper-menu attr-for-selected="data-value"
+                    selected="{{profile.suburb}}"
+                    on-iron-activate="_selectionMade">
+          <paper-item data-value="Richmond">Richmond</paper-item>
+          <paper-item data-value="Not Richmond">Somewhere else</paper-item>
+        </paper-menu>
+
+        <paper-button class="next-button"
+                      on-click="_nextPage"
+                      disabled>Next</paper-button>
+      </div>
+    </iron-pages>
+  </template>
+</dom-module>
+
+<script>
+Polymer({
+    is: 'profile-widget',
+
+    properties: {
+        profile: Object,
+    },
+
+    _selectionMade: function(e) {
+        Polymer.dom(e.target)
+            .parentNode
+            .querySelector('.next-button')
+            .disabled = false;
+    },
+
+    _nextPage: function(e) {
+        this.$.profilePages.selectNext();
+        // FIXME: this is happening before we click next page!
+        this.notifyPath('profile', this.profile);
+    },
+});
+</script>

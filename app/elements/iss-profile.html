@@ -1,0 +1,86 @@
+<dom-module id="iss-profile">
+  <template>
+    <!-- bind profile from localstorage -->
+    <iron-localstorage name="ageGroup" value="{{profile}}"></iron-localstorage>
+    <iron-localstorage name="gender" value="{{gender}}"></iron-localstorage>
+    <iron-localstorage name="suburb" value="{{suburb}}"></iron-localstorage>
+  </template
+</dom-module>
+
+<script>
+Polymer({
+    is: 'iss-profile',
+
+    properties: {
+        ageGroup: {
+            type: String,
+            value: '',
+            notify: true,
+        },
+        gender: {
+            type: String,
+            value: '',
+            notify: true,
+        },
+        suburb: {
+            type: String,
+            value: '',
+            notify: true,
+        },
+        profile: {
+            type: Object,
+            computed: '_profile(ageGroup, gender, suburb)',
+            notify: true,
+        },
+    },
+
+    observers: [
+        '_profileChanged(profile.*)',
+    ],
+
+    get _valid() {
+        return this.ageGroup != '' &&
+            this.gender != '' &&
+            this.suburb != '';
+    },
+
+    _profile: function(ageGroup, gender, suburb) {
+        a = {
+            ageGroup: this.ageGroup,
+            gender: this.gender,
+            suburb: this.suburb,
+            valid: this._valid,
+        };
+        console.log("GETTER", a);
+        return a;
+    },
+
+    _profileChanged: function(e) {
+        console.log('_profileChanged', this, e);
+
+        switch(e.path) {
+            case 'profile':
+                break;
+
+            case 'profile.suburb':
+                this.suburb = e.value;
+                break;
+
+            case 'profile.ageGroup':
+                this.ageGroup = e.value;
+                break;
+
+            case 'profile.gender':
+                this.gender = e.value;
+                break;
+
+            case 'profile.valid':
+                break;
+
+            default:
+                console.warn("Unknown property `" + e.path + "'");
+        }
+    },
+
+});
+</script>

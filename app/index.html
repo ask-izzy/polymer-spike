@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="">
 
 <head>
@@ -42,37 +42,55 @@
 
 <body unresolved>
   <template is="dom-bind" id="app">
+  <iss-profile profile="{{profile}}"></iss-profile>
+  <iron-pages attr-for-selected="data-page"
+              selected="{{page}}">
+    <div data-page="home">
+      <!-- FIXME: how do I add paper-header-panel here? -->
+      <profile-toolbar profile="{{profile}}"></profile-toolbar>
 
-    <paper-drawer-panel id="drawerPanel"
-                        responsive-width="1024px"
-                        drawer-width="256px">
+      <div hidden$="{{profile.valid}}">
+        <paper-material>
+          <h2>Tell us a bit about yourself</h2>
+          <p>
+            In order to better provide you with services, tell us a little
+            about yourself.
+          </p>
+          <profile-widget profile="{{profile}}"></profile-widget>
+        </paper-material>
+      </div>
 
-      <paper-header-panel class="list-panel" drawer="" mode="seamed">
+      <search-menu></search-menu>
+    </div>
+    <div data-page="results">
+      <paper-drawer-panel responsive-width="1024px"
+                          drawer-width="256px">
 
-        <paper-toolbar><!-- FIXME: this is your profile -->
-        <span>You &mdash; 25&ndash;50, F, Carlton 3053</span>
-        </paper-toolbar>
+        <paper-header-panel class="list-panel" drawer="" mode="seamed">
 
-        <search-menu query="{{q}}" search-display="{{search}}">
+          <profile-toolbar profile="{{profile}}"></profile-toolbar>
+          <search-menu query="{{q}}" search-display="{{search}}"></search-menu>
 
-      </paper-header-panel>
+        </paper-header-panel>
 
-      <paper-header-panel class="main-panel" main="" mode="{{mainMode}}">
+        <paper-header-panel class="main-panel" main="" mode="{{mainMode}}">
 
-        <paper-toolbar>
-          <paper-icon-button icon="menu" paper-drawer-toggle=""></paper-icon-button>
-          <span>Search results for <span>{{search}}</span></span>
-        </paper-toolbar>
+          <paper-toolbar>
+            <paper-icon-button icon="menu" paper-drawer-toggle=""></paper-icon-button>
+            <span>Search results for <span>{{search}}</span></span>
+          </paper-toolbar>
 
-        <div class="content">
-          <!-- FIXME: this is a production key! -->
-          <search-results query="{{q}}"
-          </search-results>
-        </div>
+          <div class="content">
+            <!-- FIXME: this is a production key! -->
+            <search-results query="{{q}}"
+            </search-results>
+          </div>
 
-      </paper-header-panel>
+        </paper-header-panel>
 
-    </paper-drawer-panel>
+      </paper-drawer-panel>
+    </div>
+  </iron-pages>
 
   </template>
 

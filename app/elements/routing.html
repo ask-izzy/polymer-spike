@@ -3,10 +3,11 @@
   window.addEventListener('WebComponentsReady', function() {
 
     page('/', function () {
-      app.route = 'home';
+      app.page = 'home';
     });
 
     page('/search/:q', function (q) {
+      app.page = 'results';
       app.q = q.params.q;
     });
 
