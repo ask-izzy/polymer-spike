@@ -63,8 +63,7 @@
       <search-menu></search-menu>
     </div>
     <div data-page="results">
-      <paper-drawer-panel responsive-width="1024px"
-                          drawer-width="256px">
+      <paper-drawer-panel>
 
         <paper-header-panel class="list-panel" drawer="" mode="seamed">
 
@@ -83,6 +82,8 @@
           <div class="content">
             <!-- FIXME: this is a production key! -->
             <search-results query="{{q}}"
+                            key=""
+                            secret="">
             </search-results>
           </div>
 
